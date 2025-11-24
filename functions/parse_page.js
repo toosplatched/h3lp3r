@@ -316,7 +316,7 @@ async function parseWikiLinks(text) {
 
         const parts = pageOnly.split(':').map(seg => encodeURIComponent(seg.replace(/ /g, "_")));
         const anchor = fragment ? `#${encodeURIComponent(fragment.replace(/ /g, "_"))}` : '';
-        const url = `<https://tagging.wiki/wiki/${parts.join(':')}${anchor}>`;
+        const url = `<https://sewh.miraheze.org/wiki/${parts.join(':')}${anchor}>`;
 
         return { index: m.index, length: m.length, replacement: `[**${display}**](${url})` };
     }));
