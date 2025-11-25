@@ -249,7 +249,7 @@ client.once("ready", async () => {
     try {
         await client.application.commands.create(
             new ContextMenuCommandBuilder()
-            .setName("Ask Derivative...")
+            .setName("Ask H3LP3R...")
             .setType(ApplicationCommandType.Message)
             .setContexts([
                 0, // Guild (Server)
@@ -331,7 +331,7 @@ async function handleUserRequest(userMsg, messageOrInteraction, isEphemeral = fa
         // C. Update userMsg if images are present (as discussed in the previous answer)
         if (imageParts.length > 0) {
             if (!userMsg.trim()) {
-                userMsg = "What is in this image, and how does it relate to the wiki on https://tagging.wiki?";
+                userMsg = "What is in this image, and how does it relate to the wiki on https://sewh.miraheze.org?";
             } else {
                 userMsg = `Analyze the attached image(s) in the context of the following request: ${userMsg}`;
             }
@@ -367,7 +367,7 @@ async function handleUserRequest(userMsg, messageOrInteraction, isEphemeral = fa
             const buildWikiUrl = (foundTitle) => {
                 const [pageOnly, frag] = String(foundTitle).split("#");
                 const parts = pageOnly.split(':').map(seg => encodeURIComponent(seg.replace(/ /g, "_")));
-                return `https://tagging.wiki/wiki/${parts.join(':')}${frag ? '#'+encodeURIComponent(frag.replace(/ /g,'_')) : ''}`;
+                return `https://sewh.miraheze.org/wiki/${parts.join(':')}${frag ? '#'+encodeURIComponent(frag.replace(/ /g,'_')) : ''}`;
             };
             
             const urls = uniqueResolved.map(buildWikiUrl);
@@ -469,21 +469,6 @@ async function handleUserRequest(userMsg, messageOrInteraction, isEphemeral = fa
             reply = explicitTemplateContent || "I don't know.";
         }
 
-        // If Gemini outputs [TERMINATE_MESSAGE],
-        // we silently drop it.
-        if (reply.trim() === "[TERMINATE_MESSAGE]") {
-            // Check if it's an interaction (has editReply). If so, we MUST reply to close the interaction.
-            if (isInteraction(messageOrInteraction)) {
-                // For interactions, we can't just be silent, or the command says "Application did not respond".
-                // We'll just send a generic refusal or modify the output slightly.
-                reply = "I cannot reply to that."; 
-            } else {
-                // For normal chat, we just stop entirely.
-                if (typingInterval) clearInterval(typingInterval);
-                return; 
-            }
-        }
-
         let parsedReply = await parseTemplates(reply);  
         parsedReply = await parseWikiLinks(parsedReply);
 
@@ -554,7 +539,7 @@ async function handleUserRequest(userMsg, messageOrInteraction, isEphemeral = fa
                     try {
                         const [pageOnly, frag] = String(explicitTemplateFoundTitle).split("#");
                         const parts = pageOnly.split(':').map(s => encodeURIComponent(s.replace(/ /g, "_")));
-                        const pageUrl = `https://tagging.wiki/wiki/${parts.join(':')}${frag ? '#'+encodeURIComponent(frag.replace(/ /g,'_')) : ''}`;
+                        const pageUrl = `https://sewh.miraheze.org/wiki/${parts.join(':')}${frag ? '#'+encodeURIComponent(frag.replace(/ /g,'_')) : ''}`;
                         const row = new ActionRowBuilder();
                         const btn = new ButtonBuilder()
                             .setLabel(String(explicitTemplateFoundTitle).slice(0, 80))
@@ -767,7 +752,7 @@ client.on("messageCreate", async (message) => {
 
 client.on("interactionCreate", async (interaction) => {
     if (!interaction.isMessageContextMenuCommand()) return;
-    if (interaction.commandName !== "Ask Derivative...") return;
+    if (interaction.commandName !== "Ask H3LP3R...") return;
 
     logMessage(
         interaction.channelId,
@@ -777,7 +762,7 @@ client.on("interactionCreate", async (interaction) => {
     
     const modal = new ModalBuilder()
         .setCustomId("deriv_modal")
-        .setTitle("Ask Derivative");
+        .setTitle("Ask H3LP3R");
 
     const textInput = new TextInputBuilder()
         .setCustomId("user_question")
