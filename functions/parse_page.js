@@ -16,7 +16,7 @@ async function getAllNamespaces() {
             format: "json"
         });
         const res = await fetch(`${API}?${params.toString()}`, {
-            headers: { "User-Agent": "DiscordBot/Deriv" }
+            headers: { "User-Agent": "DiscordBot/H3LP3R" }
         });
         if (!res.ok) throw new Error(`Namespaces fetch failed: ${res.status}`);
         const json = await res.json();
