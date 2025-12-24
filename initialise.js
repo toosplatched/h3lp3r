@@ -325,6 +325,7 @@ async function handleUserRequest(promptMsg, rawUserMsg, messageOrInteraction, is
         
         if (templateMatch) {
             let rawTemplate = (templateMatch[1] || templateMatch[2]).trim();
+            let rawTemplate = templateMatch[1].trim();
             let sectionName = null;
         
             if (rawTemplate.includes("#")) {
