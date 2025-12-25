@@ -234,6 +234,9 @@ client.once("ready", async () => {
     setInterval(() => { setRandomStatus(client); }, STATUS_INTERVAL_MS);
 
     try {
+        console.log("Clearing existing global commands...");
+        await client.application.commands.set([]); 
+        
         await client.application.commands.create(
             new ContextMenuCommandBuilder()
             .setName(`Ask ${BOT_NAME}...`)
@@ -418,7 +421,11 @@ async function handleUserRequest(promptMsg, rawUserMsg, messageOrInteraction, is
         }
 
         if (isEphemeral) {
-            parsedReply = parsedReply.replace(/\[START_MESSAGE\]/g, "").replace(/\[END_MESSAGE\]/g, "\n\n").trim();
+            parsedReply = parsedReply
+  .replace(/\[START_MESSAGE\]/g, "")
+  .replace(/\[END_MESSAGE\]/g, "\n")
+  .replace(/\[PAGE_EMBED:[^\]]*\]/g, "")
+  .trim();
         }
 
         let botTaggedChunks = [];
